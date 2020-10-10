@@ -52,10 +52,10 @@ namespace Platform
 
         public static async Task EndPoint(HttpContext context)
         {
-            string city = context.Request.RouteValues["city"] as string;
+            string city = context.Request.RouteValues["city"] as string ?? "london";
             int? population = null;
 
-            switch ((city ?? "").ToLower())
+            switch (city.ToLower())
             {
                 case "london":
                     population = 8_343_0000;
