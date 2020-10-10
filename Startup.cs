@@ -33,7 +33,7 @@ namespace Platform
 
             app.UseEndpoints(endPoints =>
             {
-                endPoints.MapGet("{first}/{second}/{third}", async context =>
+                endPoints.MapGet("{first}/{second}/{*catchAll}", async context =>
                 {
                     await context.Response.WriteAsync("Request was Routed. \n");
                     foreach (var pair in context.Request.RouteValues)
