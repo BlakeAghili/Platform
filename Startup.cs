@@ -32,8 +32,14 @@ namespace Platform
 
             app.UseEndpoints(endPoints =>
             {
-                endPoints.MapGet("routing",
-                    async context => { await context.Response.WriteAsync("Request Was Routed."); });
+                endPoints.MapGet("{first}/{second}/{third}", async context =>
+                {
+                    await context.Response.WriteAsync("Request was Routed. \n");
+                    foreach (var pair in context.Request.RouteValues)
+                    {
+                        await context.Response.WriteAsync($"{pair.Key} : {pair.Value} \n");
+                    }
+                });
 
                 endPoints.MapGet("capital/uk", new Population().Invoke);
                 endPoints.MapGet("population/paris", new Population().Invoke);
