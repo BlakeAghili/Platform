@@ -72,7 +72,7 @@ namespace Platform
                 case "monaco":
                     //context.Response.Redirect($"/population/{country}");
                     LinkGenerator generator = context.RequestServices.GetService<LinkGenerator>();
-                    string url = generator.GetPathByRouteValues(context, "population", new {city = country});
+                    string url = generator.GetPathByRouteValues(context, "population", new {city = country}); // because the other one is using it like this:  string city = context.Request.RouteValues["city"] as string;
                     context.Response.Redirect(url);
                     return;
             }
