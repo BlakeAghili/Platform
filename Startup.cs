@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
@@ -44,7 +45,7 @@ namespace Platform
                 //endPoints.MapGet("capital/uk", new Population().Invoke);
                 endPoints.MapGet("capital/{country}", Capital.EndPoint);
                 //endPoints.MapGet("population/paris", new Population().Invoke);
-                endPoints.MapGet("population/{city}", Population.EndPoint);
+                endPoints.MapGet("population/{city}", Population.EndPoint).WithMetadata(new RouteNameMetadata("population"));
             });
 
             app.Use(async (context, next) => {
