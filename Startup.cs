@@ -41,8 +41,10 @@ namespace Platform
                     }
                 });
 
-                endPoints.MapGet("capital/uk", new Population().Invoke);
-                endPoints.MapGet("population/paris", new Population().Invoke);
+                //endPoints.MapGet("capital/uk", new Population().Invoke);
+                endPoints.MapGet("capital/{country}", Capital.EndPoint);
+                //endPoints.MapGet("population/paris", new Population().Invoke);
+                endPoints.MapGet("population/{city}", Population.EndPoint);
             });
 
             app.Use(async (context, next) => {
