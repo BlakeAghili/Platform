@@ -28,6 +28,14 @@ namespace Platform
             app.UseMiddleware<Population>();
             app.UseMiddleware<Capital>();
 
+            app.UseRouting();
+
+            app.UseEndpoints(endPoints =>
+            {
+                endPoints.MapGet("routing",
+                    async context => { await context.Response.WriteAsync("Request Was Routed."); });
+            });
+
             app.Use(async (context, next) => {
                 await context.Response.WriteAsync("Terminal Middleware Reached");
             });
