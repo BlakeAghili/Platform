@@ -34,14 +34,14 @@ namespace Platform
         public LocationMiddleWare(RequestDelegate nextDelegate, IOptions<MessageOptions> opts)
         {
             next = nextDelegate;
-            options = opts;
+            options = opts.Value;
         }
 
         public async Task Invoke(HttpContext context)
         {
             if (context.Request.Path == "/location")
             {
-                await context.Response.WriteAsync($"{options.CityName} is in {options.CountryName} I guess.")
+                await context.Response.WriteAsync($"{options.CityName} is in {options.CountryName} I guess.");
             }
             else
             {
