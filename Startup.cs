@@ -21,7 +21,7 @@ namespace Platform
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IOptions<MessageOptions> msgOptions)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)//, IOptions<MessageOptions> msgOptions)
         {
             if (env.IsDevelopment())
             {
@@ -31,19 +31,20 @@ namespace Platform
             // conditional branching in middleware.
             app.MapWhen(context => context.Request.Query.ContainsKey("branch"), branch => { branch.UseMiddleware<QueryStringMiddleWare>(); });
 
-            app.Use(async (context, next) =>
-            {
-                if (context.Request.Path == "/location")
-                {
-                    MessageOptions opts = msgOptions.Value;
-                    await context.Response.WriteAsync($"{opts.CityName} in {opts.CountryName}");
-                    await next();
-                }
-                else
-                {
-                    await next();
-                }
-            });
+            // this was for when we pass Options as Lambda
+            //app.Use(async (context, next) =>
+            //{
+            //    if (context.Request.Path == "/location")
+            //    {
+            //        MessageOptions opts = msgOptions.Value;
+            //        await context.Response.WriteAsync($"{opts.CityName} in {opts.CountryName}");
+            //        await next();
+            //    }
+            //    else
+            //    {
+            //        await next();
+            //    }
+            //});
 
             app.Use(async (context, next) =>
             {
@@ -61,7 +62,8 @@ namespace Platform
                 await next();
             });
 
-            app.UseMiddleware<QueryStringMiddleWare>();
+            //app.UseMiddleware<QueryStringMiddleWare>();
+            app.UseMiddleware<LocationMiddleWare>();
 
             app.UseRouting();
 
