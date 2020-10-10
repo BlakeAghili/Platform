@@ -25,8 +25,8 @@ namespace Platform
         {
             app.UseDeveloperExceptionPage();
 
-            app.UseMiddleware<Population>();
-            app.UseMiddleware<Capital>();
+            // app.UseMiddleware<Population>();
+            // app.UseMiddleware<Capital>();
 
             app.UseRouting();
 
@@ -34,6 +34,9 @@ namespace Platform
             {
                 endPoints.MapGet("routing",
                     async context => { await context.Response.WriteAsync("Request Was Routed."); });
+
+                endPoints.MapGet("capital/uk", new Population().Invoke);
+                endPoints.MapGet("population/paris", new Population().Invoke);
             });
 
             app.Use(async (context, next) => {
