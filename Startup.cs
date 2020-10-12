@@ -19,6 +19,10 @@ namespace Platform
         public void ConfigureServices(IServiceCollection services)
         {
             //services.Configure<MessageOptions>(options => options.CityName = "Albany");
+            services.Configure<RouteOptions>(opts =>
+            {
+                opts.ConstraintMap.Add(("countryName"), typeof(CountryRouteConstraint));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,6 +48,7 @@ namespace Platform
 
                 //endPoints.MapGet("capital/uk", new Population().Invoke);
                 endPoints.MapGet("capital/{country=France}", Capital.EndPoint);
+                endPoints.MapGet("capital/{country:countryName}", Capital.EndPoint);
                 //endPoints.MapGet("population/paris", new Population().Invoke);
                 endPoints.MapGet("population/{city?}", Population.EndPoint).WithMetadata(new RouteNameMetadata("population"));
             });
